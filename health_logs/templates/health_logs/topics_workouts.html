@@ -1,0 +1,20 @@
+{% extends "health_logs/base.html" %}
+
+{% block page_header %}
+  <h1>Workouts</h1>
+  <h5><small>Create and customize your workouts here</small></h5>
+{% endblock page_header %}
+
+{% block content %}
+  <!--<p>Applications</p>-->
+  <ul>
+      {% for topic in topics %}
+        <li><h3><a href="{% url 'health_logs:topic_workouts' topic.id %}">{{ topic }}</a></h3></li>
+      {% empty %}
+        <li>No workouts have been added yet.</li>
+      {% endfor %}
+  </ul>
+  <h5><small><a href="{% url 'health_logs:new_topic_workouts' %}">Add a new workout:</a></small></h5>
+
+
+{% endblock content %}

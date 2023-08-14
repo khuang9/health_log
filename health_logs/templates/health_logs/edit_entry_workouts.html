@@ -1,0 +1,20 @@
+{% extends "health_logs/base.html" %}
+
+{% block content %}
+  <p><a href="{% url 'health_logs:topic_workouts' topic.id %}">{{ topic }}</a></p>
+  
+  <p>Edit exercise</p>
+  <form action="{% url 'health_logs:edit_entry_workouts' entry.id %}" method='post'>
+    {% csrf_token %}
+    <p>Exercise name:</p>
+	{{ form.exercise }}
+    <p>Duration:</p>
+    {{ form.duration }} seconds
+    <p>Sets:</p>
+    {{ form.sets }}
+	<p>Rest time:</p>
+	{{ form.rest }} seconds
+    <button name="Submit">Save changes</button>
+  </form>
+
+{% endblock content %}

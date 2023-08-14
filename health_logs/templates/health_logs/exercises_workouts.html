@@ -1,0 +1,54 @@
+{% extends "health_logs/base.html" %}
+
+{% block page_header %}
+  <h2>Exercises for: {{topic}}</h2>
+{% endblock page_header %}
+
+{% block content %}
+
+
+  <p>
+    <a href="{% url 'health_logs:new_entry_workouts' topic.id %}">Add a new exercise:</a>
+  </p>
+
+  <ul>
+  {% for entry in entries %}
+	<div class="card mb-3">
+	  <h5 class="card-header">
+	    {{ entry.date_added|date:'M d, Y H:i' }}
+		<small><a href="{% url 'health_logs:edit_entry_workouts' entry.id %}">Edit exercise</a></small>
+	  </h5>
+		
+	  <div class="card-body">
+	    <h3>{{ entry.exercise }}</h3>
+		<li>{{ entry.duration }} seconds</li>
+		<li>{{ entry.sets }} sets</li>
+		<li>{{ entry.rest }} seconds rest in between</li>
+          
+	  </div>
+	</div>
+        
+	<br></br>
+	
+  {% empty %}
+      <li>No exercises for this workout yet.</li>
+  {% endfor %}
+  
+  <style>
+	.button {
+		display: inline-block;
+		padding: 10px 20px;
+		font-size: 16px;
+		background-color: #3498db;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		text-align: center;
+		text-decoration: none;
+		cursor: pointer;
+	}
+  </style>
+  <p><a href="{% url 'health_logs:topic_workouts' topic.id %}" class=button>Save and Exit</a></p>
+
+  </ul>
+{% endblock content %}

@@ -1,0 +1,38 @@
+{% extends "health_logs/base.html" %}
+
+{% block page_header %}
+  <h2>Goal: {{topic}}</h2>
+{% endblock page_header %}
+
+{% block content %}
+
+  <h5>Entries:</h5>
+
+  <p>
+    <a href="{% url 'health_logs:new_entry_goals' topic.id %}">Add a new entry:</a>
+  </p>
+
+  <ul>
+    {% for entry in entries %}
+
+	  <div class="card mb-3">
+		<h5 class="card-header">
+		  {{ entry.date_added|date:'M d, Y H:i' }}
+		  <small><a href="{% url 'health_logs:edit_entry_goals' entry.id %}">Edit entry</a></small>
+		</h5>
+		
+		<div class="card-body">
+		  <h5>{{ entry.section }}</h5>
+          <p>{{ entry.text|linebreaks }}</p>
+          
+		</div>
+	  </div>
+
+	  <br></br>
+	  
+    {% empty %}
+        <li>No entries for this goal yet.</li>
+    {% endfor %}
+	
+  </ul>
+{% endblock content %}

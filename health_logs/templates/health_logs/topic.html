@@ -1,0 +1,145 @@
+{% extends "health_logs/base.html" %}
+
+{% block page_header %}
+  <h2>Topic: {{topic}}</h2>
+{% endblock page_header %}
+
+{% block content %}
+	
+  <h3>{{ trend }}</h3>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div id="chartContainer" style="width: 400px; height: 210px;">
+    <canvas id="myChart"></canvas>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('myChart').getContext('2d');
+        let currentChart;
+
+        // Initial chart creation
+        createChart('A');
+
+        // Radio button event listener
+        const radioButtons = document.querySelectorAll('input[name="chartType"]');
+        radioButtons.forEach(button => {
+            button.addEventListener('change', function() {
+                const selectedValue = this.value;
+                //destroyCurrentChart();
+                //createChart(selectedValue);
+            });
+        });
+
+        // Chart creation function
+		
+        function createChart(chartType) {
+			var xs = '{{ xs }}';
+			var days = xs.split(' ');
+			var ys = '{{ ys }}';
+			var stats = ys.split(' ');
+			var work_p_day = '{{ workouts_per_day }}';
+			var workouts_per_day = work_p_day.split(' ');
+			
+			currentChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+					labels: days,
+					datasets: [{
+						label: '{{ topic }}',
+						data: stats,
+						backgroundColor: 'rgba(75, 192, 192, 0.2)',
+						borderColor: 'rgba(75, 192, 192, 1)',
+						borderWidth: 1,
+						yAxisID: 'y'
+					},
+						{
+						label: 'Linked workout',
+						data: workouts_per_day,
+						backgroundColor: 'rgba(192, 75, 192, 0.2)',
+						borderColor: 'rgba(192, 75, 192, 1)',
+						borderWidth: 1,
+						yAxisID: 'y1'
+					}
+					]
+				},
+				options: {
+					scales: {
+						x: {
+							title: {
+									display: true,
+									text: 'Days since beginning'
+							}
+						},
+						
+						y: {
+							beginAtZero: true,
+							title: {
+									display: true,
+									text: '{{ topic }}'
+							}
+						},
+						
+						y1: {
+							type: 'linear',
+							display: true,
+							position: 'right',
+							
+							grid: {
+								drawOnChartArea: false,
+							},
+							title: {
+								display: true,
+								text: 'Workout completions per day'
+							}
+						}
+						
+					}
+				}
+			});
+
+        }
+
+        // Chart destruction function
+        function destroyCurrentChart() {
+            if (currentChart) {
+                currentChart.destroy();
+            }
+        }
+    });
+</script>
+  <p>
+    <a href="{% url 'health_logs:link_workouts' topic.id %}">Link a workout to your chart</a>
+  </p>
+  
+  <br></br>
+  
+  <h5>Entries:</h5>
+
+  <!--<p>Sections:</p>-->
+  <p>
+    <a href="{% url 'health_logs:new_entry' topic.id %}">Add a new entry:</a>
+  </p>
+
+  <ul>
+    {% for entry in entries %}
+      <!--<li>-->
+	  <div class="card mb-3">
+		<h5 class="card-header">
+		  {{ entry.date_added|date:'M d, Y H:i' }}
+		  <small><a href="{% url 'health_logs:edit_entry' entry.id %}">Edit entry</a></small>
+		</h5>
+		
+		<div class="card-body">
+		  <h5>{{ entry.section }}</h5>
+          <p>{{ entry.text|linebreaks }}</p>
+          
+		</div>
+	  </div>
+
+	  <br></br>
+    {% empty %}
+        <li>No entries for this topic yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock content %}

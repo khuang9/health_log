@@ -1,0 +1,16 @@
+{% extends "health_logs/base.html" %}
+
+{% block content %}
+  <p><a href="{% url 'health_logs:topic' topic.id 0 %}">{{ topic }}</a></p>
+  
+  <p>Edit entry</p>
+  <form action="{% url 'health_logs:edit_entry' entry.id %}" method='post'>
+    {% csrf_token %}
+    <p>Entry Title:</p>
+    {{ form.section }}
+    <p>Entry Details (make sure it is a number, units excluded):</p>
+    {{ form.text }}
+    <button name="Submit">Save changes</button>
+  </form>
+
+{% endblock content %}

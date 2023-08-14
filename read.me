@@ -1,0 +1,31 @@
+# Health Log
+
+HealthLog is a website for users to record their measurements (health and exercise), analyze the measurements, and answer natural language questions.
+Specifically, a user can register to create an account, then log health measurements in various categories as frequently as they want. Then view the analysis page to see the history, estimate the trend, and use natural language to answer questions related to their own measurements or related to HealthLog collected public data..
+
+## Usage
+(1) Going to be deployed to a platform-as-a-service (PaaS) platform such as Heruku or Platform.sh;
+(1) For family members' usage, you can download the GitHub files to your family PC, and then execute manage.py runserver in the Django web server framework and visit http://<server IP>:8000 (such as http://localhost:8000/ or http://192.168.1.8:8000/);
+
+## Pre-requisite for family members' usage
+### Install Django
+pip install Django
+### Create a new Django project in your preferred directory
+Django-admin.exe startproject health_log
+### Create the database for the project
+manage.py migrate
+### Create the two apps
+manage.py startapp health_logs
+manage.py startapp users
+### Place the GitHub files to the health_logs and users folders
+### Update the database
+manage.py makemigrations health_logs
+manage.py makemigrations users
+manage.py migrate
+### Start the server
+- manage.py runserver (making the server only listen on localhost:8000), or
+- manage.py runserver 0.0.0.0:8000 (making the server to listen on all available IP addresses)
+
+## Contributing
+
+Pull requests are welcome.

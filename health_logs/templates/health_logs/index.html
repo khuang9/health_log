@@ -1,0 +1,21 @@
+{% extends "health_logs/base.html" %}
+
+{% block page_header %}
+  <div class="jumbotron">
+    <h1 class="display-3">Track your health.</h1>
+
+    <p class="lead">Record and analyse all your health statistics in one place.</p>
+
+    <a class="btn btn-lg btn-primary" href="{% url 'users:register' %}"
+        role="button">Register &raquo;</a>
+  </div>
+{% endblock page_header %}
+
+{% block content %}
+  <h2>
+    <a href="{% url 'users:register' %}">Register an account</a> to make your own Health Log.
+  </h2>
+  <h2>
+    Whenever you achieve a new goal, make an entry summarizing your experience.
+  </h2>
+{% endblock content %}

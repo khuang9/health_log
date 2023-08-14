@@ -1,0 +1,29 @@
+{% extends "health_logs/base.html" %}
+
+{% block page_header %}
+  <h1>Goals</h1>
+  <h5><small>Record and track your goals here</small></h5>
+{% endblock page_header %}
+
+{% block content %}
+  <!--<p>Applications</p>-->
+  <ul>
+      {% for topic in topics %}
+        <li><h3><a href="{% url 'health_logs:topic_goals' topic.id %}">{{ topic }}</a></h3></li>
+      {% empty %}
+        <li>No goals have been added yet.</li>
+      {% endfor %}
+  </ul>
+  <h5><small><a href="{% url 'health_logs:new_topic_goals' %}">Add a new goal:</a></small></h5>
+
+  <p>
+  <form action="{% url 'health_logs:topics'%}" method='post'>
+    {% csrf_token %}
+    <p>Your question:</p>
+    <input type="text" name="editBox1" placeholder="">
+    <button type="submit" name="submitButton">Send</button>
+    <p>AI answer:</p>
+    {{ ai_answer }}
+  </form>
+  </p>
+{% endblock content %}

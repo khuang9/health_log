@@ -1,0 +1,19 @@
+{% extends "health_logs/base.html" %}
+
+{% block page_header %}
+  <h1>Logs</h1>
+  <h5><small>Record non-numerical entries here (reflections, notes, etc.)</small></h5>
+{% endblock page_header %}
+
+{% block content %}
+  <!--<p>Applications</p>-->
+  <ul>
+      {% for topic in topics %}
+        <li><h3><a href="{% url 'health_logs:topic_logs' topic.id %}">{{ topic }}</a></h3></li>
+      {% empty %}
+        <li>No topics have been added yet.</li>
+      {% endfor %}
+  </ul>
+  <h5><small><a href="{% url 'health_logs:new_topic_logs' %}">Add a new topic:</a></small></h5>
+
+{% endblock content %}

@@ -1,0 +1,79 @@
+{% extends "health_logs/base.html" %}
+
+{% block page_header %}
+  <h2>Workout: {{topic}}</h2>
+{% endblock page_header %}
+
+{% block content %}
+
+  <h5>Exercises:</h5>
+
+  <p>
+    <a href="{% url 'health_logs:new_entry_workouts' topic.id %}">Add a new exercise:</a>
+  </p>
+
+  <ul>
+  {% for entry in entries %}
+    {% if forloop.first %}
+	<div class="card mb-3">
+	  <h5 class="card-header">
+		Workout completed {{ topic.times_completed }} times in total, last completed {{ topic.completion_timestamps|last}}
+		<small><a href="{% url 'health_logs:exercises_workouts' topic.id %}">Edit workout</a></small>
+	  </h5>
+		
+	  <div class="card-body">
+	    {% if forloop.first %}
+		  <p id="display_workout"></p>
+		  <script>
+		    var workout = "{{formatted_workout}}";
+			const workout_steps = workout.split(",");
+			
+			var workoutHTML = "";
+			
+			for (var i = 0; i < workout_steps.length; i++) {
+			
+			  if (workout_steps[i].slice(4, 6) == "h3") {
+			    if (i != 0) {
+				  workoutHTML += "<br></br>"
+				}
+			    workoutHTML += "<h3>" + workout_steps[i].slice(10, workout_steps[i].length - 11) + "</h3>";
+			  }
+			  
+			  if (workout_steps[i].slice(4, 6) == "li") {
+			    workoutHTML += "<li>" + workout_steps[i].slice(10, workout_steps[i].length - 11) + "</li>";
+			  }
+			  
+			}
+			 
+            document.getElementById("display_workout").innerHTML = workoutHTML
+		  </script>
+		{% endif %}
+          
+	  </div>
+	</div>
+
+	{% endif %}
+	
+  {% empty %}
+      <li>No exercises for this workout yet.</li>
+  {% endfor %}
+  
+  <style>
+	.button {
+		display: inline-block;
+		padding: 10px 20px;
+		font-size: 16px;
+		background-color: #3498db;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		text-align: center;
+		text-decoration: none;
+		cursor: pointer;
+	}
+  </style>
+  
+  <p><a href="{% url 'health_logs:do_workout' topic.id %}" class=button>Start Workout</a></p>
+
+  </ul>
+{% endblock content %}
